@@ -1,7 +1,7 @@
 import cherrypy
 class HelloWorld(object):
     def index(self):
-        return "Hello World!"
+        return "Hello World2!"
     index.exposed = True
 
 #單機使用
