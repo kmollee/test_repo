@@ -1,7 +1,18 @@
 import cherrypy
 class HelloWorld(object):
     def index(self):
-        return "Hello World3!"
+        outstring = '''
+        <html>
+        <head>
+            <title>this is example</title>
+        </head>
+        <body>
+        <h1>網際網路應用</h1>
+        <a href="http://www.google.com">Go to google!</a>
+        </body>        
+        </html>
+        '''
+        return outstring
     index.exposed = True
 
 #單機使用
