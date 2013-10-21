@@ -8,6 +8,7 @@ class HelloWorld(object):
         </head>
         <body>
             <h1>網際網路應用</h1>
+            <br />
             <a href="http://www.google.com">Go to google!</a>
         </body>        
         </html>
@@ -15,5 +16,5 @@ class HelloWorld(object):
         return outstring
     index.exposed = True
 
-#cherrypy.quickstart(HelloWorld())
-application = cherrypy.Application(HelloWorld())
+cherrypy.quickstart(HelloWorld())
+#application = cherrypy.Application(HelloWorld())
