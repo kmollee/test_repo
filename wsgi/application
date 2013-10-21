@@ -18,7 +18,6 @@ class c2w17(object):
     # 首頁 menulink 為連結
     # exposed 要設為true 表示可被頁面拜訪
     def index(self):
-<<<<<<< HEAD
         outstring = '''
         <html>
         <head>
@@ -36,7 +35,6 @@ class c2w17(object):
 
 cherrypy.quickstart(HelloWorld())
 #application = cherrypy.Application(HelloWorld())
-=======
         Outstring = '''
         <h1>c2w17</h1>
         c2w17 answer
@@ -287,19 +285,20 @@ class Root(object):
     # 指定 c2w18可被拜訪
     c2w18 = c2w18()
     # root 首頁
-    OutString='''
-    <html>
-        <head>
-            <title>this is title</title>
-            <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        </head>
-        <body>
-            <h1>this is h1</h1>
-            <a href="http://www.google.com"><img src="https://lh3.googleusercontent.com/-1wOPE4IwgoU/AAAAAAAAAAI/AAAAAAAAABw/boSdBnQsumg/s120-c/photo.jpg"></a>
-        <body>
-    </html>
-    '''
+
     def index(self):
+        OutString='''
+        <html>
+            <head>
+                <title>this is title</title>
+                <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+            </head>
+            <body>
+                <h1>this is h1</h1>
+                <a href="http://www.google.com"><img src="https://lh3.googleusercontent.com/-1wOPE4IwgoU/AAAAAAAAAAI/AAAAAAAAABw/boSdBnQsumg/s120-c/photo.jpg"></a>
+            <body>
+        </html>
+        '''
         return OutString
     index.exposed = True
 
