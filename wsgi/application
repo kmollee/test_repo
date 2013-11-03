@@ -9,6 +9,7 @@ from mako.lookup import TemplateLookup
 # 將 site_config 設為 "OpenShift" 表示程式將在 OpenSite 平台中執行, 否則就是在 local 執行
 #site_config = "OpenShift"
 site_config = "OpenShift"
+
 if site_config == "OpenShift":
     SQLite_data_dir = os.environ['OPENSHIFT_DATA_DIR']+"/db"
     download_root_dir = os.environ['OPENSHIFT_DATA_DIR']
@@ -55,23 +56,6 @@ class HelloWorld(object):
         return 內建頁面.render(temp=temp)
 
 
-localapplication_conf = {'/kmol':{
-        'tools.staticdir.on': True,
-        'tools.staticdir.dir': 目前目錄 + "/kmol"},
-        '/downloads':{
-        'tools.staticdir.on': True,
-        'tools.staticdir.root': download_root_dir,
-        'tools.staticdir.dir': 'downloads',
-        'tools.staticdir.index' : 'index.htm'
-        },
-        # 設定靜態 templates 檔案目錄對應
-        '/templates':{
-        'tools.staticdir.on': True,
-        'tools.staticdir.root': template_root_dir,
-        'tools.staticdir.dir': 'templates',
-        'tools.staticdir.index' : 'index.htm'
-        }
-    }
 
 
 application_conf = {'/kmol':{
@@ -100,4 +84,4 @@ application_conf = {'/kmol':{
 if site_config == "OpenShift":
     application = cherrypy.Application(HelloWorld(), config = application_conf)
 else:
-    cherrypy.quickstart(HelloWorld(), config = localapplication_conf)
+    cherrypy.quickstart(HelloWorld(), config = application_conf)
