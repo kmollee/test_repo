@@ -42,7 +42,7 @@ class HelloWorld(object):
     @cherrypy.expose
     def index(self, stud_number=None, stud_name=None):
         #return "Hello World!"
-        套稿查詢 = TemplateLookup(directories=[template_root_dir+"\\templates"])
+        套稿查詢 = TemplateLookup(directories=[template_root_dir+"/templates"])
         # 必須要從 templates 目錄取出 index.html
         內建頁面 = 套稿查詢.get_template("index.html")
         return 內建頁面.render(stud_number=stud_number, stud_name=stud_name)
@@ -50,7 +50,7 @@ class HelloWorld(object):
     @cherrypy.expose
     def example(self, temp='example'):
         #return "Hello World!"
-        套稿查詢 = TemplateLookup(directories=[template_root_dir+"\\templates"])
+        套稿查詢 = TemplateLookup(directories=[template_root_dir+"/templates"])
         # 必須要從 templates 目錄取出 index.html
         內建頁面 = 套稿查詢.get_template(temp + '.html')
         return 內建頁面.render(temp=temp)
