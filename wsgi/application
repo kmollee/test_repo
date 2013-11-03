@@ -7,6 +7,7 @@ from mako.lookup import TemplateLookup
 
 # site_config could be "OpenShift" or "local"
 # 將 site_config 設為 "OpenShift" 表示程式將在 OpenSite 平台中執行, 否則就是在 local 執行
+#site_config = "OpenShift"
 site_config = "OpenShift"
 if site_config == "OpenShift":
     SQLite_data_dir = os.environ['OPENSHIFT_DATA_DIR']+"/db"
@@ -17,7 +18,7 @@ else:
     print(目前目錄)
     SQLite_data_dir = 目前目錄+"\\pyforum_db"
     download_root_dir = 目前目錄
-    template_root_dir = 目前目錄
+    template_root_dir = 目前目錄 + '\\static'
 
 class HelloWorld(object):
     _cp_config = {
@@ -34,16 +35,44 @@ class HelloWorld(object):
     'tools.sessions.timeout' : 60,
     # 以下透過  @cherrypy.tools.mako(filename="mytmpl.txt") decorator 設定的套稿目錄依據
     # javascript 檔案位於 templates/jscript 目錄下, css 檔案則位於 templates/style 目錄下
-    'tools.mako.directories' :  template_root_dir+"/templates"
+    'tools.mako.directories' :  template_root_dir+"/static/templates"
     }
 
     @cherrypy.expose
     def index(self, stud_number=None, stud_name=None):
         #return "Hello World!"
-        套稿查詢 = TemplateLookup(directories=[template_root_dir+"/templates"])
+        套稿查詢 = TemplateLookup(directories=[template_root_dir+"\\templates"])
         # 必須要從 templates 目錄取出 index.html
         內建頁面 = 套稿查詢.get_template("index.html")
         return 內建頁面.render(stud_number=stud_number, stud_name=stud_name)
+
+    @cherrypy.expose
+    def example(self, temp='example'):
+        #return "Hello World!"
+        套稿查詢 = TemplateLookup(directories=[template_root_dir+"\\templates"])
+        # 必須要從 templates 目錄取出 index.html
+        內建頁面 = 套稿查詢.get_template(temp + '.html')
+        return 內建頁面.render(temp=temp)
+
+
+localapplication_conf = {'/kmol':{
+        'tools.staticdir.on': True,
+        'tools.staticdir.dir': 目前目錄 + "/kmol"},
+        '/downloads':{
+        'tools.staticdir.on': True,
+        'tools.staticdir.root': download_root_dir,
+        'tools.staticdir.dir': 'downloads',
+        'tools.staticdir.index' : 'index.htm'
+        },
+        # 設定靜態 templates 檔案目錄對應
+        '/templates':{
+        'tools.staticdir.on': True,
+        'tools.staticdir.root': template_root_dir,
+        'tools.staticdir.dir': 'templates',
+        'tools.staticdir.index' : 'index.htm'
+        }
+    }
+
 
 application_conf = {'/kmol':{
         'tools.staticdir.on': True,
@@ -63,10 +92,12 @@ application_conf = {'/kmol':{
         }
     }
 
-#cherrypy.quickstart(HelloWorld())
-application = cherrypy.Application(HelloWorld(), config = application_conf)
+#cherrypy.quickstart(HelloWorld(), config = localapplication_conf)
+#application = cherrypy.Application(HelloWorld(), config = application_conf)
 # 根據 site_config 的設定, 可以分別在 OpenShift 與 local 運行
+
+
 if site_config == "OpenShift":
     application = cherrypy.Application(HelloWorld(), config = application_conf)
 else:
-    cherrypy.quickstart(HelloWorld(), config = application_conf)
+    cherrypy.quickstart(HelloWorld(), config = localapplication_conf)
