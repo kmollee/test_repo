@@ -51,16 +51,31 @@
     </script>
 </head>
 <body>
+
+	##側邊 導航
 	<div id="nav">
 		<p>cadp mid example</p>
 		<a href="/example?temp=example">example</a>
 	</div>
 
+	##內容
 	<div id="content">
 		<h1>this is cadp mid example</h1>
-        <%block name="content">
-            this is the footer
+
+		<h2>Vedio</h2>
+        <%block name="vedio">
+            this is the vedio
         </%block>
+
+        <h2>Img</h2>
+        <%block name="img">
+        </%block>
+
+        <h2>File</h2>
+        <%block name="file">
+        </%block>
+
+        ##webgl display
 		<div class="showwebgl">
 			<h2>stl view</h2>
 			<div id="centered" class="centered">

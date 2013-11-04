@@ -1,10 +1,14 @@
 <%inherit file="cadp.html"/>
 
-<%block name="content">
-	<h2>vedio</h2>
-    <iframe width="560" height="315" src="//www.youtube-nocookie.com/embed/S7qa8CO9Bq8?rel=0" frameborder="0" allowfullscreen></iframe>
-    <h2>img</h2>
-    <img src="/kmol/${temp}/${temp}.png" width="400" height="400" alt="img is lost">
-    <h2>file</h2>
-    <a href="/kmol/${temp}/${temp}.slvs">solvespace part - ${temp}.slvs</a>
+
+<%block name="vedio">
+	<iframe width="560" height="315" src="//www.youtube-nocookie.com/embed/S7qa8CO9Bq8?rel=0" frameborder="0" allowfullscreen></iframe>
+</%block>
+
+<%block name="img">
+	<img src="/kmol/${temp}/${temp}.png" width="400" height="400" alt="img is lost">
+</%block>
+
+<%block name="file">
+	<a href="/kmol/${temp}/${temp}.slvs">solvespace part - ${temp}.slvs</a>
 </%block>
