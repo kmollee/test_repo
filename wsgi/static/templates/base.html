@@ -2,9 +2,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>viewpart</title>
+	<title>
+		<%block name="title">
+			this is title
+    	</%block>
+	</title>
+
 	<%block name="extra_head">
     </%block>
+
 	<link rel="stylesheet" href="templates/style/viewpart.css" type="text/css">
 	<style type="text/css">
 		body{
@@ -52,6 +58,7 @@
 		<p>mid example</p>
 		<%block name="nav">
         </%block>
+        <br />
         <a href="/">back to home</a>
 	</div>
 
