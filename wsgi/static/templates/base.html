@@ -3,9 +3,8 @@
 <html>
 <head>
 	<title>viewpart</title>
-	<script type="text/javascript" src="templates/jscript/partview/Three.js"></script>
-	<script type="text/javascript" src="templates/jscript/partview/RequestAnimationFrame.js"></script>
-	<script type="text/javascript" src="templates/jscript/partview/objstl.js"></script>
+	<%block name="extra_head">
+    </%block>
 	<link rel="stylesheet" href="templates/style/viewpart.css" type="text/css">
 	<style type="text/css">
 		body{
@@ -40,23 +39,19 @@
 		#content {
 		    margin-left: 10em;
 		}
-
 	</style>
-    <script>
-	    window.onload = function ()
-	    {
-	        load();
-	        example("/kmol/${temp}/${temp}.stl");
-	    }
-    </script>
+
+	<%block name="extra_js">
+    </%block>
+
 </head>
 <body>
 
 	##側邊 導航
 	<div id="nav">
 		<p>mid example</p>
-		<a href="/example?category=cadp&temp=example">example</a>
-		<a href="/example?category=ia&temp=example">example</a>
+		<%block name="nva">
+        </%block>
 	</div>
 
 	##內容

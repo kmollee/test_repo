@@ -1,5 +1,26 @@
 ##encoding: utf-8
 <%inherit file="/base.html"/>
+
+<%block name="extra_head">
+    <script type="text/javascript" src="templates/jscript/partview/Three.js"></script>
+    <script type="text/javascript" src="templates/jscript/partview/RequestAnimationFrame.js"></script>
+    <script type="text/javascript" src="templates/jscript/partview/objstl.js"></script>
+</%block>
+
+<%block name="extra_js">
+    <script>
+        window.onload = function ()
+        {
+            load();
+            example("/kmol/${temp}/${temp}.stl");
+        }
+    </script>
+</%block>
+
+<%block name="nav">
+    <a href="/example?category=cadp&temp=example">example</a>
+</%block>
+
 <%block name="content">
 	<h1>this is cadp mid example</h1>
 
