@@ -55,7 +55,7 @@ class HelloWorld(object):
         #內建頁面 = 套稿查詢.get_template(category +'/'+ temp + '.html')
         #內建頁面 = 套稿查詢.get_template(category+ '/' +temp + '.html')
         #內建頁面 = 套稿查詢.get_template(temp + '.html')
-        內建頁面 = 套稿查詢.get_template('ia/test.html')
+        內建頁面 = 套稿查詢.get_template('/ia/test.html')
         return 內建頁面.render(temp=temp)
 
 
