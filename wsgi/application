@@ -36,7 +36,7 @@ class HelloWorld(object):
     'tools.sessions.timeout' : 60,
     # 以下透過  @cherrypy.tools.mako(filename="mytmpl.txt") decorator 設定的套稿目錄依據
     # javascript 檔案位於 templates/jscript 目錄下, css 檔案則位於 templates/style 目錄下
-    'tools.mako.directories' :  template_root_dir
+    'tools.mako.directories' :  template_root_dir + "/templates"
     }
 
     @cherrypy.expose
