@@ -1,0 +1,52 @@
+##encoding: utf-8
+<%inherit file="/base.html"/>
+## file 一開有加 slash / 則為絕對path
+## 若無則為相對 path
+
+<%block name="extra_head">
+    <script type="text/javascript" src="templates/jscript/jquery-1.10.2.min.js"></script>
+</%block>
+
+<%block name="extra_js">
+    <script type="text/javascript">
+        $(document).ready(function(){
+
+            $("#testform").submit(
+                function(event){
+                    event.preventDefault();
+                    var postdata = {n1: $("#n1").val(), n2: $("#n2").val()};
+                    //alert('hello');
+                    $.ajax({
+                        type: "POST",
+                        url: "submit",
+                        //dataType: "xml",
+                        data:postdata,
+                        success: function(data){
+                            //alert(data["title"]);
+                            $("#title").html(data['result']);
+                        }
+                    });
+                }
+            );
+        });
+
+    </script>
+</%block>
+
+<%block name="nav">
+    <a href="#">example</a>
+</%block>
+
+<%block name="content">
+    <h1 id="title">相加</h1>
+    <form id="testform" action="" method="post">
+        <p>
+        <label for="n1">n1:</label>
+        <input type="text" id="n1" /> <br />
+
+        <label for="n2">n2:</label>
+        <input type="text" id="n2" /> <br />
+        <input type="submit" value="Set" />
+        </p>
+    </form>
+</%block>
