@@ -21,11 +21,11 @@ if 'OPENSHIFT_REPO_DIR' in os.environ.keys():
     template_root_dir = os.environ['OPENSHIFT_REPO_DIR']+"/wsgi/static"
 else:
     目前目錄 = os.getcwd()
-#print(目前目錄)
-SQLite_data_dir = 目前目錄+"/pyforum_db"
-#
-download_root_dir = 目前目錄 + '/downloads'
-template_root_dir = 目前目錄 + '/static'
+    #print(目前目錄)
+    SQLite_data_dir = 目前目錄+"/pyforum_db"
+    #
+    download_root_dir = 目前目錄 + '/downloads'
+    template_root_dir = 目前目錄 + '/static'
  
 class HelloWorld(object):
     _cp_config = {
