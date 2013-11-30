@@ -19,6 +19,7 @@ if 'OPENSHIFT_REPO_DIR' in os.environ.keys():
     SQLite_data_dir = os.environ['OPENSHIFT_DATA_DIR']+"/db"
     download_root_dir = os.environ['OPENSHIFT_DATA_DIR']
     template_root_dir = os.environ['OPENSHIFT_REPO_DIR']+"/wsgi/static"
+    sessions_tmp_dir = './wsgi/tmp'
 else:
     目前目錄 = os.getcwd()
     #print(目前目錄)
@@ -26,6 +27,7 @@ else:
     #
     download_root_dir = 目前目錄 + '/downloads'
     template_root_dir = 目前目錄 + '/static'
+    sessions_tmp_dir = './tmp'
  
 class HelloWorld(object):
     _cp_config = {
@@ -38,7 +40,7 @@ class HelloWorld(object):
         'tools.sessions.locking' : 'explicit',
         # 就 OpenShift ./tmp 位於 app-root/runtime/repo/tmp
         #近端存在 wsgi/tmp
-        'tools.sessions.storage_path' : './tmp',
+        'tools.sessions.storage_path' :  sessions_tmp_dir,
         # 內定的 session timeout 時間為 60 分鐘
         'tools.sessions.timeout' : 60,
         # 以下透過  @cherrypy.tools.mako(filename="mytmpl.txt") decorator 設定的套稿目錄依據
