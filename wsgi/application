@@ -17,9 +17,9 @@ import json
 #git 不適合用來管理 data 檔案
 if 'OPENSHIFT_REPO_DIR' in os.environ.keys():
     SQLite_data_dir = os.environ['OPENSHIFT_DATA_DIR']+"/db"
-    download_root_dir = os.environ['OPENSHIFT_DATA_DIR']
+    download_root_dir = os.environ['OPENSHIFT_DATA_DIR'] + "/kmol"
     template_root_dir = os.environ['OPENSHIFT_REPO_DIR']+"/wsgi/static"
-    sessions_tmp_dir = './wsgi/tmp'
+    sessions_tmp_dir = os.environ['OPENSHIFT_REPO_DIR'] + '/wsgi/tmp'
 else:
     目前目錄 = os.getcwd()
     #print(目前目錄)
@@ -93,6 +93,7 @@ application_conf = {
         'tools.staticdir.on': True,
         'tools.staticdir.dir': download_root_dir,
     },
+
     # 設定靜態 templates 檔案目錄對應
     '/templates':{
         'tools.staticdir.on': True,
