@@ -11,40 +11,84 @@
 
 <%block name="extra_js">
     <script>
-        window.onload = function ()
-        {
+        $(document).ready(function(){
             load();
             example("/kmol/${category}/${temp}/${temp}.stl");
-        }
+        });
     </script>
 </%block>
 
-<%block name="nav">
-    <a href="/example?category=cadp&temp=example">example</a>
-</%block>
-
 <%block name="content">
-	<h1>this is cadp mid example</h1>
 
-	<h2>Vedio</h2>
-    <%block name="vedio">
-        this is the vedio
-    </%block>
+    <script type="text/javascript">
+    $(document).ready(function(){
+        $(".cadp").parent().addClass("active")
+        
+    });
+    </script>
 
-    <h2>Img</h2>
-    <%block name="img">
-    </%block>
+    <div class="panel panel-primary" style="width:700px;">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                Vedio
+            </h3>
+        </div>
+        <div class="panel-body">
+            <%block name="vedio">
+                this is the vedio
+            </%block>
+        </div>
+        <%doc>
+        <div class="panel-footer">
+            Panel footer
+        </div>
+        </%doc>
+    </div>
 
-    <h2>File</h2>
-    <%block name="file">
-    </%block>
 
-    ##webgl display
-	<div class="showwebgl">
-		<h2>stl view</h2>
-		<div id="centered" class="centered">
-		</div>
-		<div id="webgl" oncontextmenu="return false;">
-		</div>
-	</div>
+    <div class="panel panel-primary" style="width:700px;">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                Img
+            </h3>
+        </div>
+        <div class="panel-body">
+            <%block name="img">
+                this is the vedio
+            </%block>
+        </div>
+    </div>
+
+    <div class="panel panel-primary" style="width:700px;">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                File
+            </h3>
+        </div>
+        <div class="panel-body">
+            <button type="button" class="btn btn-info btn-lg">
+                <%block name="file"></%block>
+            </button>
+            
+        </div>
+    </div>
+
+
+    <div class="panel panel-primary" style="width:700px;">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                STL viewer
+            </h3>
+        </div>
+        <div class="panel-body">
+            <div class="showwebgl">
+                <h2>stl view</h2>
+                <div id="centered" class="centered">
+                </div>
+                <div id="webgl" oncontextmenu="return false;">
+                </div>
+            </div>
+        </div>
+    </div>
+
 </%block>
