@@ -17,7 +17,7 @@ import json
 #git 不適合用來管理 data 檔案
 if 'OPENSHIFT_REPO_DIR' in os.environ.keys():
     SQLite_data_dir = os.environ['OPENSHIFT_DATA_DIR']+"/db"
-    download_root_dir = os.environ['OPENSHIFT_DATA_DIR'] + "/kmol"
+    download_root_dir = os.environ['OPENSHIFT_DATA_DIR'] + '/downloads'
     template_root_dir = os.environ['OPENSHIFT_REPO_DIR']+"/wsgi/static"
     sessions_tmp_dir = os.environ['OPENSHIFT_REPO_DIR'] + '/wsgi/tmp'
 else:
@@ -86,13 +86,53 @@ class HelloWorld(object):
         n2 = int(n2)
         cherrypy.response.headers['Content-Type'] = 'application/json'
         return json.dumps(dict(result="%d + %d = %d" % (n1, n2, n1+n2))).encode('utf8')
+
+    @cherrypy.expose
+    def listupload(self):
+        #return "Hello World!"
+        套稿查詢 = TemplateLookup(directories=[template_root_dir+"/templates"])
+        # 必須要從 templates 目錄取出 index.html
+        #內建頁面 = 套稿查詢.get_template(category +'/'+ temp + '.html')
+        #內建頁面 = 套稿查詢.get_template(category+ '/' +temp + '.html')
+        內建頁面 = 套稿查詢.get_template('/upload/index.html')
+        file_list = os.listdir(download_root_dir)
+        #內建頁面 = 套稿查詢.get_template('/ia/test.html')
+        return 內建頁面.render(file_list = file_list)
+
+    @cherrypy.expose
+    def upload(self, upl=None):
+        out = """<html>
+        <body>
+        myFile filename: %s<br />
+        myFile mime-type: %s
+        </body>
+        </html>"""
+
+        
+        size = 0
+        allData=''
+        #logging.info('myfile: ' + str(myFile))
+        data = upl.file.read(8192)
+        savedFile=open(download_root_dir + '/' + upl.filename, 'wb')
+        #logging.info('writing file: ' + myFile.filename)
+        savedFile.write(data)
+        savedFile.close()
+
+        print(upl.filename , upl.type)
+        return out % (upl.filename , upl.type)
  
 #目錄設置
 application_conf = {
     '/kmol':{
         'tools.staticdir.on': True,
-        'tools.staticdir.dir': download_root_dir,
+        'tools.staticdir.dir': download_root_dir + "/kmol",
     },
+
+    '/downloads':{
+        'tools.staticdir.on': True,
+        'tools.staticdir.dir': download_root_dir
+    },
+
 
     # 設定靜態 templates 檔案目錄對應
     '/templates':{

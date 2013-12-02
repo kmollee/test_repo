@@ -1,0 +1,50 @@
+##encoding: utf-8
+<%inherit file="/base.html"/>
+## file 一開有加 slash / 則為絕對path
+## 若無則為相對 path
+
+<%block name="content">
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $(".listupload").parent().addClass("active")
+            
+        });
+    </script>
+    <h1 id="title">upload</h1>
+
+    ##目前現存的檔案
+    <div class="list-group" style="width:30%;">
+        % for a in file_list:
+            <a href="/downloads/${a}" class="list-group-item">${a}</a>
+        % endfor
+    </div>
+
+    <h1>上傳檔案</h1>
+    ##檔案上傳
+    <form id="upload" method="post" action="/upload" enctype="multipart/form-data">
+        <div id="drop">
+            Drop Here
+
+            <a>Browse</a>
+            <input type="file" name="upl" multiple/>
+        </div>
+
+        <ul>
+            <!-- The file uploads will be shown here -->
+        </ul>
+
+    </form>
+    <!-- JavaScript Includes -->
+    <script src="templates/jscript/jquery.knob.js"></script>
+
+    <!-- jQuery File Upload Dependencies -->
+    <script src="templates/jscript/jquery.ui.widget.js"></script>
+    <script src="templates/jscript/jquery.iframe-transport.js"></script>
+    <script src="templates/jscript/jquery.fileupload.js"></script>
+    
+    <!-- Our main JS file -->
+    <script src="templates/jscript/uploadscript.js"></script>
+
+</%block>
+
+
