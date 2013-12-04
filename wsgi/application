@@ -95,7 +95,7 @@ class HelloWorld(object):
         #內建頁面 = 套稿查詢.get_template(category +'/'+ temp + '.html')
         #內建頁面 = 套稿查詢.get_template(category+ '/' +temp + '.html')
         內建頁面 = 套稿查詢.get_template('/upload/index.html')
-        file_list = os.listdir(download_root_dir)
+        file_list = os.listdir(download_root_dir + "/downloads")
         #內建頁面 = 套稿查詢.get_template('/ia/test.html')
         return 內建頁面.render(file_list = file_list)
 
