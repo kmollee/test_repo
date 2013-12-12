@@ -1,0 +1,94 @@
+##encoding: utf-8
+<%inherit file="/base.html"/>
+## file 一開有加 slash / 則為絕對path
+## 若無則為相對 path
+
+<%block name="extra_head">
+    <script type="text/javascript" src="templates/jscript/partview/Three.js"></script>
+    <script type="text/javascript" src="templates/jscript/partview/RequestAnimationFrame.js"></script>
+    <script type="text/javascript" src="templates/jscript/partview/objstl.js"></script>
+</%block>
+
+<%block name="extra_js">
+    <script>
+        $(document).ready(function(){
+            load();
+            example("/kmol/${category}/${temp}/${temp}.stl");
+        });
+    </script>
+</%block>
+
+<%block name="content">
+
+    <script type="text/javascript">
+    $(document).ready(function(){
+        $(".cadp").parent().addClass("active")
+        
+    });
+    </script>
+
+    <div class="panel panel-primary" style="width:700px;">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                Vedio
+            </h3>
+        </div>
+        <div class="panel-body">
+            <%block name="vedio">
+                this is the vedio
+            </%block>
+        </div>
+        <%doc>
+        <div class="panel-footer">
+            Panel footer
+        </div>
+        </%doc>
+    </div>
+
+
+    <div class="panel panel-primary" style="width:700px;">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                Img
+            </h3>
+        </div>
+        <div class="panel-body">
+            <%block name="img">
+                this is the vedio
+            </%block>
+        </div>
+    </div>
+
+    <div class="panel panel-primary" style="width:700px;">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                File
+            </h3>
+        </div>
+        <div class="panel-body">
+            <button type="button" class="btn btn-info btn-lg">
+                <%block name="file"></%block>
+            </button>
+            
+        </div>
+    </div>
+
+
+    <div class="panel panel-primary" style="width:700px;">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                STL viewer
+            </h3>
+        </div>
+        <div class="panel-body">
+            <div class="showwebgl">
+                <h2>stl view</h2>
+                <div id="centered" class="centered">
+                </div>
+                <div id="webgl" oncontextmenu="return false;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+</%block>

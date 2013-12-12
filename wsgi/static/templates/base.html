@@ -1,0 +1,112 @@
+##encoding: utf-8
+<!DOCTYPE html>
+<html>
+<head>
+	<title>
+		<%block name="title">
+			this is title
+    	</%block>
+	</title>
+
+	<%block name="extra_head">
+    </%block>
+
+    <script type="text/javascript" src="/templates/jscript/jquery-1.10.2.min.js"></script>
+
+<link rel="stylesheet" href="/templates/style/bootstrap.min.css">
+
+
+<link rel="stylesheet" href="templates/style/bootstrap-theme.min.css">
+
+<script src="templates/jscript/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="templates/style/viewpart.css" type="text/css">
+	<link rel="stylesheet" href="templates/style/upload.css" type="text/css">
+	<style type="text/css">
+		/* Move down content because we have a fixed navbar that is 50px tall */
+		body {
+		  padding-top: 50px;
+		  padding-bottom: 20px;
+		}
+		#footer {
+			text-align:center;
+			padding-bottom: 1px;
+		}
+		#testform input{
+			width: 300px;
+		}
+		hr {
+		  -moz-border-bottom-colors: none;
+		  -moz-border-image: none;
+		  -moz-border-left-colors: none;
+		  -moz-border-right-colors: none;
+		  -moz-border-top-colors: none;
+		  border-color: #EEEEEE -moz-use-text-color #FFFFFF;
+		  border-style: solid none;
+		  border-width: 1px 0;
+		  margin: 18px 0;
+		}
+
+	</style>
+
+	<%block name="extra_js">
+    </%block>
+
+</head>
+<%doc>
+<body>
+	<%doc>
+	##側邊 導航
+	<div id="nav">
+		<p>mid example</p>
+		<%block name="nav">
+        </%block>
+        <br />
+        <a href="/">back to home</a>
+	</div>
+
+	##內容
+	<div id="content">
+		<%block name="content">
+        </%block>
+	</div>
+</body>
+</html>
+</%doc>
+
+<body>
+<div class="container">
+	<div class="row clearfix">
+		<div class="col-md-12 column">
+			<div class="page-header">
+				<h1>
+					welcome to my site
+				</h1>
+			</div>
+
+			##nav 欄位
+			<%include file="nav.html"/>
+
+
+			## 接下來為內容
+
+<%block name="content">
+</%block>
+<br />
+<br />
+<br />
+			##end content
+
+			##footer
+			<div id="footer" class="container">
+			    <nav class="navbar navbar-default navbar-fixed-bottom">
+			        <div class="navbar-inner navbar-content-center">
+			            <p class="text-muted credit">Example</p>
+			        </div>
+			    </nav>
+			</div>
+			##end footer
+		</div>
+	</div>
+</div>
+</body>
+</html>

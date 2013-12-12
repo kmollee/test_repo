@@ -1,0 +1,40 @@
+##encoding: utf-8
+<%inherit file="/base.html"/>
+
+<%block name="nav">
+    <a href="/example?category=ia&temp=example">example</a>
+</%block>
+
+<%block name="content">
+
+	<script type="text/javascript">
+	$(document).ready(function(){
+		$(".ia").parent().addClass("active")
+		
+	});
+	</script>
+
+	<h1>this is ia mid example</h1>
+
+    <div class="panel panel-primary" style="width:700px;">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                心得
+            </h3>
+        </div>
+        <div class="panel-body">
+                <%block name="report"></%block>
+        </div>
+    </div>
+
+    <div class="panel panel-primary" style="width:700px;">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                Vedio
+            </h3>
+        </div>
+        <div class="panel-body">
+            <%block name="vedio">this is the vedio</%block>
+        </div>
+    </div>
+</%block>

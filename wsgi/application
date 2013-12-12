@@ -4,41 +4,50 @@ import os
 # for mako
 #from mako.template import Template
 from mako.lookup import TemplateLookup
-
+import json
+ 
 # site_config could be "OpenShift" or "local"
 # 將 site_config 設為 "OpenShift" 表示程式將在 OpenSite 平台中執行, 否則就是在 local 執行
 #site_config = "OpenShift"
-site_config = "OpenShift"
-
-if site_config == "OpenShift":
+#site_config = "local"
+ 
+ 
+ 
+#如在 openshift 上執行 須先把 local 的 download_root_dir 上傳到 OPENSHIFT_DATA_DIR
+#git 不適合用來管理 data 檔案
+if 'OPENSHIFT_REPO_DIR' in os.environ.keys():
     SQLite_data_dir = os.environ['OPENSHIFT_DATA_DIR']+"/db"
     download_root_dir = os.environ['OPENSHIFT_DATA_DIR']
     template_root_dir = os.environ['OPENSHIFT_REPO_DIR']+"/wsgi/static"
+    sessions_tmp_dir = os.environ['OPENSHIFT_REPO_DIR'] + '/wsgi/tmp'
 else:
     目前目錄 = os.getcwd()
-    print(目前目錄)
-    SQLite_data_dir = 目前目錄+"\\pyforum_db"
+    #print(目前目錄)
+    SQLite_data_dir = 目前目錄+"/pyforum_db"
+    #
     download_root_dir = 目前目錄
-    template_root_dir = 目前目錄
-
+    template_root_dir = 目前目錄 + '/static'
+    sessions_tmp_dir = './tmp'
+ 
 class HelloWorld(object):
     _cp_config = {
-    # 配合 utf-8 格式之表單內容
-    # 若沒有 utf-8 encoding 設定,則表單不可輸入中文
-    'tools.encode.encoding': 'utf-8',
-    # 加入 session 設定
-    'tools.sessions.on' : True,
-    'tools.sessions.storage_type' : 'file',
-    'tools.sessions.locking' : 'explicit',
-    # 就 OpenShift ./tmp 位於 app-root/runtime/repo/tmp
-    'tools.sessions.storage_path' : './wsgi/tmp',
-    # 內定的 session timeout 時間為 60 分鐘
-    'tools.sessions.timeout' : 60,
-    # 以下透過  @cherrypy.tools.mako(filename="mytmpl.txt") decorator 設定的套稿目錄依據
-    # javascript 檔案位於 templates/jscript 目錄下, css 檔案則位於 templates/style 目錄下
-    'tools.mako.directories' :  template_root_dir
+        # 配合 utf-8 格式之表單內容
+        # 若沒有 utf-8 encoding 設定,則表單不可輸入中文
+        'tools.encode.encoding': 'utf-8',
+        # 加入 session 設定
+        'tools.sessions.on' : True,
+        'tools.sessions.storage_type' : 'file',
+        'tools.sessions.locking' : 'explicit',
+        # 就 OpenShift ./tmp 位於 app-root/runtime/repo/tmp
+        #近端存在 wsgi/tmp
+        'tools.sessions.storage_path' :  sessions_tmp_dir,
+        # 內定的 session timeout 時間為 60 分鐘
+        'tools.sessions.timeout' : 60,
+        # 以下透過  @cherrypy.tools.mako(filename="mytmpl.txt") decorator 設定的套稿目錄依據
+        # javascript 檔案位於 templates/jscript 目錄下, css 檔案則位於 templates/style 目錄下
+        'tools.mako.directories' :  template_root_dir + "/templates",
     }
-
+     
     @cherrypy.expose
     def index(self, stud_number=None, stud_name=None):
         #return "Hello World!"
@@ -46,42 +55,110 @@ class HelloWorld(object):
         # 必須要從 templates 目錄取出 index.html
         內建頁面 = 套稿查詢.get_template("index.html")
         return 內建頁面.render(stud_number=stud_number, stud_name=stud_name)
-
+     
     @cherrypy.expose
-    def example(self, temp='example'):
+    def example(self, category='cadp',temp='example'):
         #return "Hello World!"
         套稿查詢 = TemplateLookup(directories=[template_root_dir+"/templates"])
         # 必須要從 templates 目錄取出 index.html
-        內建頁面 = 套稿查詢.get_template(temp + '.html')
-        return 內建頁面.render(temp=temp)
+        #內建頁面 = 套稿查詢.get_template(category +'/'+ temp + '.html')
+        #內建頁面 = 套稿查詢.get_template(category+ '/' +temp + '.html')
+        內建頁面 = 套稿查詢.get_template('/'+ category + '/' + temp + '.html')
+        #內建頁面 = 套稿查詢.get_template('/ia/test.html')
+        return 內建頁面.render(category = category, temp = temp)
+ 
+    #ajax 測試
+    @cherrypy.expose
+    def test(self, category='test', temp= "index"):
+        #return "Hello World!"
+        套稿查詢 = TemplateLookup(directories=[template_root_dir+"/templates"])
+        # 必須要從 templates 目錄取出 index.html
+        #內建頁面 = 套稿查詢.get_template(category +'/'+ temp + '.html')
+        #內建頁面 = 套稿查詢.get_template(category+ '/' +temp + '.html')
+        內建頁面 = 套稿查詢.get_template('/'+ category + '/' + temp + '.html')
+        #內建頁面 = 套稿查詢.get_template('/ia/test.html')
+        return 內建頁面.render(category = category, temp = temp)
 
+    #ajax 測試 回傳 要加 .encode('utf8')
+    @cherrypy.expose
+    def submit(self, n1, n2):
+        n1 = int(n1)
+        n2 = int(n2)
+        cherrypy.response.headers['Content-Type'] = 'application/json'
+        return json.dumps(dict(result="%d + %d = %d" % (n1, n2, n1+n2))).encode('utf8')
 
+    @cherrypy.expose
+    def listupload(self):
+        #return "Hello World!"
+        套稿查詢 = TemplateLookup(directories=[template_root_dir+"/templates"])
+        # 必須要從 templates 目錄取出 index.html
+        #內建頁面 = 套稿查詢.get_template(category +'/'+ temp + '.html')
+        #內建頁面 = 套稿查詢.get_template(category+ '/' +temp + '.html')
+        內建頁面 = 套稿查詢.get_template('/upload/index.html')
+        file_list = os.listdir(download_root_dir + "/downloads")
+        #內建頁面 = 套稿查詢.get_template('/ia/test.html')
+        return 內建頁面.render(file_list = file_list)
 
+    @cherrypy.expose
+    def upload(self, upl=None):
+        out = """<html>
+        <body>
+        myFile filename: %s<br />
+        myFile mime-type: %s
+        </body>
+        </html>"""
 
-application_conf = {'/kmol':{
+        
+        size = 0
+        allData=''
+        #logging.info('myfile: ' + str(myFile))
+        data = upl.file.read(8192)
+        savedFile=open(download_root_dir + '/' + upl.filename, 'wb')
+        #logging.info('writing file: ' + myFile.filename)
+        savedFile.write(data)
+        savedFile.close()
+
+        print(upl.filename , upl.type)
+        return out % (upl.filename , upl.type)
+ 
+#目錄設置
+application_conf = {
+    '/kmol':{
         'tools.staticdir.on': True,
-        'tools.staticdir.dir': os.environ['OPENSHIFT_DATA_DIR']+"/kmol"},
-        '/downloads':{
+        'tools.staticdir.dir': download_root_dir + "/kmol",
+    },
+
+    '/downloads':{
         'tools.staticdir.on': True,
-        'tools.staticdir.root': download_root_dir,
-        'tools.staticdir.dir': 'downloads',
-        'tools.staticdir.index' : 'index.htm'
-        },
-        # 設定靜態 templates 檔案目錄對應
-        '/templates':{
+        'tools.staticdir.dir': download_root_dir + "/downloads",
+    },
+
+
+    # 設定靜態 templates 檔案目錄對應
+    '/templates':{
         'tools.staticdir.on': True,
         'tools.staticdir.root': template_root_dir,
         'tools.staticdir.dir': 'templates',
-        'tools.staticdir.index' : 'index.htm'
-        }
+        'tools.staticdir.index' : 'index.htm',
     }
-
+}
+ 
+ 
 #cherrypy.quickstart(HelloWorld(), config = localapplication_conf)
 #application = cherrypy.Application(HelloWorld(), config = application_conf)
 # 根據 site_config 的設定, 可以分別在 OpenShift 與 local 運行
-
-
+ 
+'''
 if site_config == "OpenShift":
+application = cherrypy.Application(HelloWorld(), config = application_conf)
+else:
+cherrypy.quickstart(HelloWorld(), config = application_conf)
+'''
+ 
+#依照環境不同 啟動server方式亦不同
+if 'OPENSHIFT_REPO_DIR' in os.environ.keys():
+    # 雲端執行啟動
     application = cherrypy.Application(HelloWorld(), config = application_conf)
 else:
+    # 近端執行啟動
     cherrypy.quickstart(HelloWorld(), config = application_conf)
